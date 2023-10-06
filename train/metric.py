@@ -118,7 +118,7 @@ if __name__ == "__main__":
 
     print("Scalar Metric:", scalar_result)
     print("Accuracy Metric:", accuracy_result)
-    print("F1 Score Metric:", f1_result)
+    print("F1 Score Metric:", sum(f1_result)/len(f1_result))
     print("R2 Score Metric:", r2_result)
 
 

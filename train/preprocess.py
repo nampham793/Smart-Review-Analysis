@@ -64,8 +64,9 @@ class Preprocess():
         dataset = dataset.map(self.label)
         dataset = dataset.remove_columns(['Unnamed: 0','Review', 'giai_tri', 'luu_tru', 'nha_hang', 'an_uong', 'di_chuyen', 'mua_sam', 'Segment'])
         dataset.set_format("torch")
-        
+
         return dataset
+
 
 
     
