@@ -63,9 +63,9 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model.to(device)
 
 # Optimizer
-optimizer = AdamW(model.parameters(), lr=5e-5)
-num_epochs = 30
-num_training_steps = num_epochs * len(train_dataloader)
+optimizer = AdamW(model.parameters(), lr=4e-6)
+num_epochs = 50
+num_training_steps = num_epochs*len(train_dataloader)
 lr_scheduler = get_scheduler(
     'linear',
     optimizer=optimizer,
@@ -73,12 +73,9 @@ lr_scheduler = get_scheduler(
     num_training_steps=num_training_steps
 )
 
-# Continue training using pre-trained weights
-model.load_state_dict(torch.load(PRE_TRAINWEIGHTS_PATH))
-
 # Training
 pb_train = tqdm(range(num_training_steps))
-pb_test = tqdm(range(num_epochs * len(test_dataloader)))
+pb_test = tqdm(range(num_epochs*len(test_dataloader)))
 best_score = -1
 
 for epoch in range(num_epochs):
@@ -91,19 +88,20 @@ for epoch in range(num_epochs):
         inputs = {'input_ids': batch['input_ids'].to(device),
                 'attention_mask': batch['attention_mask'].to(device)}
         outputs_classifier, outputs_regressor = model(**inputs)
-        loss1 = sigmoid_focal_loss(outputs_classifier, batch['labels_classifier'].to(device).float(), alpha=-1, gamma=1, reduction='mean')
+        loss1 = sigmoid_focal_loss(outputs_classifier, batch['labels_classifier'].to(device).float(), alpha=-1, gamma=1,reduction='mean')
         loss2 = loss_softmax(outputs_regressor, batch['labels_regressor'].to(device).float(), device)
-        loss = 10 * loss1 + loss2
+        loss = 10*loss1 + loss2
         optimizer.zero_grad()
         loss.backward()
-        optimizer.step()
+        optimizer.step()       
         lr_scheduler.step()
         pb_train.update(1)
-        pb_train.set_postfix(loss_classifier=loss1.item(), loss_regressor=loss2.item(), loss=loss.item())
+        pb_train.set_postfix(loss_classifier=loss1.item(),loss_regressor=loss2.item(),loss=loss.item())
         train_loss += loss.item() / len(train_dataloader)
     print("Train Loss:", train_loss)
     
     # Evaluate
+    # model.eval()
     val_loss = ScalarMetric()
     val_loss_classifier = ScalarMetric()
     val_loss_regressor = ScalarMetric()
@@ -138,7 +136,7 @@ for epoch in range(num_epochs):
             
     f1_score = val_f1_score.compute()
     r2_score = val_r2_score.compute()
-    final_score = (f1_score * r2_score).sum() * 1/6
+    final_score = (f1_score * r2_score).sum()*1/6
     
     if final_score > best_score:
         best_score = final_score
@@ -150,6 +148,3 @@ for epoch in range(num_epochs):
     print("R2_score", r2_score)
     print("Final_score", final_score)
     print("Best_score", best_score)
-
-# After training is complete, you can save the final model
-torch.save(model.state_dict(), SAVE_WEIGHT_DIR)
