@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Review Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ddd5e8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .form-container {
+            text-align: left;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="submit"] {
+            background-color: #beadfa;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #beadfa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #f4f4f4;
+        }
+        th {
+            background-color: #a695e3;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Review Analysis</h1>
+        <div class="form-container">
+            <form action="http://localhost:8000/analyse" method="POST" id="reviewForm">
+                <label for="review_text">Your Review:</label><br>
+                <textarea id="review_text" name="review_text" rows="4" cols="50"></textarea><br>
+                <div class="button-container">
+                    <input type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+        <div id="result" style="display: none;">
+            <h2>Analysis Result</h2>
+            <table>
+                <tr>
+                    <th>Aspects</th>
+                    <th>Rating</th>
+                </tr>
+                <tr>
+                    <td>Giải trí</td>
+                    <td id="Giai_tri"></td>
+                </tr>
+                <tr>
+                    <td>Lưu trú</td>
+                    <td id="Luu_tru"></td>
+                </tr>
+                <tr>
+                    <td>Nhà hàng</td>
+                    <td id="Nha_hang"></td>
+                </tr>
+                <tr>
+                    <td>Ăn uống</td>
+                    <td id="An_uong"></td>
+                </tr>
+                <tr>
+                    <td>Di chuyển</td>
+                    <td id="Di_chuyen"></td>
+                </tr>
+                <tr>
+                    <td>Mua sắm</td>
+                    <td id="Mua_sam"></td>
+                </tr>
+            </table>
+        </div>
+        <h6>NamPNH2 - Smart Review Analysis - QAI</h6>
+    </div>
+
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const reviewText = document.getElementById('review_text').value;
+            const resultDiv = document.getElementById('result');
+
+            // Make a POST request to the FastAPI endpoint
+            const response = await fetch('/analyse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ review_text: reviewText }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('Giai_tri').textContent = data.Giai_tri;
+                document.getElementById('Luu_tru').textContent = data.Luu_tru;
+                document.getElementById('Nha_hang').textContent = data.Nha_hang;
+                document.getElementById('An_uong').textContent = data.An_uong;
+                document.getElementById('Di_chuyen').textContent = data.Di_chuyen;
+                document.getElementById('Mua_sam').textContent = data.Mua_sam;
+                resultDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
