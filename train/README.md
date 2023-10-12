@@ -5,3 +5,4 @@ The process of training and evaluation :
   - Train in train.py
   - Save model weight in weights folder
   - Evaluation model performance with model weights (F1, R2, Final Score) 
+Web application is in templates folder
