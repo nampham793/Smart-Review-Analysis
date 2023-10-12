@@ -3,12 +3,12 @@
 - Smart Review Analysis is a project that helps businesses and individuals make data-driven decisions by extracting valuable insights from customer reviews and feedback. This model use the reviews of the customers after using the services. After the model have the review, it will return the number of stars for each aspect. In this situation, we have 5 aspects Entertainments, Accomodation Service, Restaurant Service, Food and Beverage, Shopping Services in Vietnamese language.
 
 # Table of contents
-  Technology 
-  Preprocessing
-  Installation
-  Demo
-  Train
-  FastAPI Web Application
+  [Technology] <br> 
+  [Preprocessing] <br>
+  [Installation] <br>
+  [Demo]  <br>
+  [Train] <br>
+  [FastAPI Web Application] <br>
 
 # Technology
   Ensemble <br>
