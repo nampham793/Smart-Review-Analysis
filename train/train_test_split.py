@@ -75,7 +75,7 @@ class Split():
         return train_df, test_df
 
 if __name__ == "__main__":
-    DATA_PATH = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/processed_data.csv"
+    DATA_PATH = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/data_final_problem2.csv"
     SAVE_DIR_TRAIN = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/train.csv"
     SAVE_DIR_TEST = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/test.csv"
 

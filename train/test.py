@@ -6,7 +6,7 @@ from utils import pred_to_label
 
 # Load the trained model
 model = Combined_model("vinai/phobert-base") 
-model.load_state_dict(torch.load("/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/train/weights/model_v3.pt", map_location='cpu'))  
+model.load_state_dict(torch.load("/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/train/weights/model-2.pt", map_location='cpu'))  
 
 # Tokenizer
 tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
