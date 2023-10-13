@@ -49,8 +49,6 @@ class Split():
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
         
-        
-
         return X_train, y_train, X_test, y_test
 
     def test_distribution(self):

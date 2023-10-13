@@ -6,7 +6,7 @@ from utils import pred_to_label
 
 # Load the trained model
 model = Combined_model("vinai/phobert-base") 
-model.load_state_dict(torch.load("/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/train/weights/model-2.pt", map_location='cpu'))  
+model.load_state_dict(torch.load("/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/train/weights/model_v6.pt", map_location='cpu'))  
 
 # Tokenizer
 tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
@@ -27,4 +27,10 @@ with torch.no_grad():
 	# Convert output to label
     outputs = pred_to_label(outputs_classifier, outputs_regressor)
 
-    print(outputs)
+    print("Giai tri: ", outputs[0][0])
+    print("Luu tru: ", outputs[0][1])
+    print("Nha hang: ", outputs[0][2])
+    print("An uong: ", outputs[0][3])
+    print("Di chuyen: ", outputs[0][4])
+    print("Mua sam: ", outputs[0][5])
+
