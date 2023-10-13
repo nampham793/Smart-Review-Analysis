@@ -1,6 +1,24 @@
 import numpy as np
 import re
 
+"""
+Input:
+    This code is designed to preprocess and clean text data, typically in the form of
+    a dataset with a "Review" column containing text. The input text may contain emojis,
+    special characters, punctuation, numbers, and abbreviations related to "nhan_vien" and "khach_san."
+
+Output:
+    The code performs a series of text cleaning operations, including the removal of emojis,
+    special characters, punctuation, numbers, and replacement of abbreviations. The final
+    output is a preprocessed and cleaned text, ready for further natural language processing tasks.
+    Additionally, the code includes functions for segmenting text into sentences, tokenization,
+    and labeling data for regression and classification tasks.
+
+The Preprocess class serves as a data preprocessing pipeline, and it takes as input a dataset
+with a "Review" column and produces a processed dataset with columns for segmentation,
+tokenization, and labeling. The final dataset is set in the "torch" format for further use.
+"""
+
 def remove_emoji(raw_text):
     emoji = re.compile("["
                         u"\U0001F600-\U0001F64F"  # emoticons

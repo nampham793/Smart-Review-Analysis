@@ -1,0 +1,6 @@
+{
+    "DATA_PATH": "dataset/data_final_problem2.csv",
+    "SAVE_DIR_TRAIN": "dataset/train.csv",
+    "SAVE_DIR_TEST": "dataset/test.csv",
+    "N_SPLITS": 5
+  }

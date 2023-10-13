@@ -1,0 +1,9 @@
+{
+    "TRAIN_DIR": "dataset/train.csv",
+    "TEST_DIR": "dataset/test.csv",
+    "SAVE_WEIGHT_DIR": "train/weights/model_v6.pt",
+    "MODEL_NAME": "vinai/phobert-base",
+    "SEED": 42,
+    "DEVICE": "cuda",
+    "NUM_EPOCHS": 10
+  }

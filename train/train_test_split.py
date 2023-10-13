@@ -1,15 +1,8 @@
+import json
 import pandas as pd
-import numpy as np
-import os
-import sys
-sys.path.insert(0, "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis")
-sys.path.insert(1, "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/preproccess")
-
-from sklearn.model_selection import train_test_split
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 
 class Split():
-
     '''
     INPUT: 
         Data path, 
@@ -19,76 +12,60 @@ class Split():
             5: 80% - 20%
         )
 
-    OUTPUT: 80-10-10 TRAIN-DEV-TEST
-        X_train, y_train, X_val, y_val, X_test, y_test
+    OUTPUT: 80-20 TRAIN-DEV-TEST
+        X_train, y_train, X_test, y_test
     '''
 
-    def __init__(self, data_path , n_split):
-        self.data_path = data_path 
-        self.n_split = n_split
+    def __init__(self, config_path):
+        with open(config_path, 'r') as config_file:
+            config = json.load(config_file)
+        self.data_path = config['DATA_PATH']
+        self.save_dir_train = config['SAVE_DIR_TRAIN']
+        self.save_dir_test = config['SAVE_DIR_TEST']
+        self.n_splits = config['N_SPLITS']
 
-    def preprocess_data_format(self):
-        labels = ['giai_tri', 'luu_tru', 'nha_hang', 'an_uong', 'di_chuyen', 'mua_sam']
+    def preprocess_data(self):
         data = pd.read_csv(self.data_path)
+        labels = ['giai_tri', 'luu_tru', 'nha_hang', 'an_uong', 'di_chuyen', 'mua_sam']
         X = data.drop(columns=labels)
         y = data[labels]
-
-        X = X.to_numpy()
-        y = y.to_numpy()
 
         return X, y
 
     def count_label_distribution(self, y):
-        label_counts = pd.DataFrame(data=y, columns=['giai_tri', 'luu_tru', 'nha_hang', 'an_uong', 'di_chuyen', 'mua_sam'])
-        label_distribution = label_counts.apply(lambda x: x.value_counts()).fillna(0).astype(int)
-        return label_distribution
+        return y.apply(lambda col: col.value_counts().fillna(0).astype(int))
 
-    def split(self, X, y):
-        mskf = MultilabelStratifiedKFold(n_splits=self.n_split, shuffle=True, random_state=0)
-        for train_index, test_index in mskf.split(X, y):
-            X_train, X_test = X[train_index], X[test_index]
-            y_train, y_test = y[train_index], y[test_index]
-        
+    def split_data(self, X, y):
+        mskf = MultilabelStratifiedKFold(n_splits=self.n_splits, shuffle=True, random_state=0)
+        train_indices, test_indices = next(mskf.split(X, y))
+
+        train_indices = train_indices.astype(int)  # Convert to NumPy int array
+        test_indices = test_indices.astype(int)    # Convert to NumPy int array
+
+        X_train, X_test = X.iloc[train_indices], X.iloc[test_indices]
+        y_train, y_test = y.iloc[train_indices], y.iloc[test_indices]
+
         return X_train, y_train, X_test, y_test
 
-    def test_distribution(self):
-        X, y = self.preprocess_data_format()
-        X_train, y_train, X_test, y_test = self.split(X, y)
-
-        train_label_distribution = self.count_label_distribution(y_train)
-        test_label_distribution = self.count_label_distribution(y_test)
-
-        return X_train, y_train, X_test, y_test, train_label_distribution, test_label_distribution
+    def save_data_to_csv(self, data, save_path):
+        data.to_csv(save_path, index=False)
 
     def run(self):
-        X, y = self.preprocess_data_format()
-        X_train, y_train, X_test, y_test = self.split(X, y)
+        X, y = self.preprocess_data()
+        X_train, y_train, X_test, y_test = self.split_data(X, y)
 
-        train_df = pd.DataFrame(data={'Review': X_train[:, 0]})
-        train_df = pd.concat([train_df, pd.DataFrame(data=y_train, columns=['giai_tri', 'luu_tru', 'nha_hang', 'an_uong', 'di_chuyen', 'mua_sam'])], axis=1)
+        train_df = pd.concat([X_train, y_train], axis=1)
+        test_df = pd.concat([X_test, y_test], axis=1)
 
-        test_df = pd.DataFrame(data={'Review': X_test[:, 0]})
-        test_df = pd.concat([test_df, pd.DataFrame(data=y_test, columns=['giai_tri', 'luu_tru', 'nha_hang', 'an_uong', 'di_chuyen', 'mua_sam'])], axis=1)           
+        self.save_data_to_csv(train_df, self.save_dir_train)
+        self.save_data_to_csv(test_df, self.save_dir_test)
 
-        return train_df, test_df
+if __name__ =="__main__":
+    CONFIG_PATH = 'train/split_config.json'
+    splitter = Split(config_path=CONFIG_PATH)
+    splitter.run()
 
-if __name__ == "__main__":
-    DATA_PATH = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/data_final_problem2.csv"
-    SAVE_DIR_TRAIN = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/train.csv"
-    SAVE_DIR_TEST = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/dataset/test.csv"
-
-    split = Split(DATA_PATH, 5)
-    # X_train, y_train, X_test, y_test, train_label_dist, test_label_dist = split.test_distribution()
-
-    # print("Training Label Distribution:")
-    # print(train_label_dist)
-
-    # print("Testing Label Distribution:")
-    # print(test_label_dist)
-
-    train_df, test_df = split.run()
-    train_df.to_csv(SAVE_DIR_TRAIN)
-    test_df.to_csv(SAVE_DIR_TEST)
+    print("Completed")
 
 
 

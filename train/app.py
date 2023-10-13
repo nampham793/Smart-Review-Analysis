@@ -8,19 +8,22 @@ from vncorenlp import VnCoreNLP
 from model import Combined_model
 from utils import pred_to_label
 
+'''
+IMPORTANCE NOTE: Remember to cd to train/ before run the api 
+'''
+
 # Initialize FastAPI app
 app = FastAPI()
 templates = Jinja2Templates(directory='templates')
 
 # Load the trained model
-MODEL_PATH = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/train/weights/model_v6.pt"
-VnCoreNLP_PATH = "/Users/nampham/OneDrive - Đại học FPT- FPT University/Intern/Smart Review Classification/Smart-Review_Analysis/VnCoreNLP/VnCoreNLP-1.1.1.jar"
+MODEL_PATH = "weights/model_v6.pt"
 
 # Initialize the model, tokenizer, and segmenter
 model = Combined_model("vinai/phobert-base")
 model.load_state_dict(torch.load(MODEL_PATH, map_location='cpu'))
 tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
-rdrsegmenter = VnCoreNLP(VnCoreNLP_PATH, annotators="wseg", max_heap_size='-Xmx500m')
+rdrsegmenter = VnCoreNLP("VnCoreNLP/VnCoreNLP-1.1.1.jar", annotators="wseg", max_heap_size='-Xmx500m')
 
 # Create a Pydantic model for request body
 class ReviewRequest(BaseModel):

@@ -1,5 +1,20 @@
 import numpy as np
 
+"""
+Input:
+    - True labels (y_true) and predicted labels (y_pred).
+    - Scalar values for scalar metric.
+
+Process:
+    1. Compute precision and recall for binary classification tasks.
+    2. Calculate F1 scores and R2 scores for multiple labels.
+    3. Implement scalar metrics for general scalar values and accuracy for classification tasks.
+    4. Update and compute the metrics for the given data.
+
+Output:
+    - Scalar metrics, accuracy, F1 score, and R2 score are computed and printed.
+"""
+
 def precision(y_pred, y_true):
     true_positive = np.logical_and(y_pred, y_true).sum(axis=0)
     false_positive = np.logical_and(y_pred, ~y_true).sum(axis=0)

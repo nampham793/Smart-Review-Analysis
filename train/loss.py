@@ -2,6 +2,20 @@ import torch.nn.functional as F
 import torch
 import torch.nn as nn
 
+"""
+Input:
+    - Predictions and labels for a classification task.
+    - Predictions and labels for a regression task.
+    - Inputs and labels for a multi-class classification task.
+
+Process:
+    1. Define loss functions for binary classification, regression, and multi-class classification tasks.
+    2. Compute and return the loss for each task based on the provided predictions and labels.
+
+Output:
+    - Loss values for each task (classification, regression, and multi-class classification) are printed.
+"""
+
 def loss_classifier(pred_classifier, labels_classifier):
     return nn.BCELoss()(pred_classifier, labels_classifier)
 
