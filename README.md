@@ -1,30 +1,35 @@
-## Smart-Review-Analysis
-# Overview:
+# Smart-Review-Analysis
+## Overview:
 - Smart Review Analysis is a project that helps businesses and individuals make data-driven decisions by extracting valuable insights from customer reviews and feedback. This model use the reviews of the customers after using the services. After the model have the review, it will return the number of stars for each aspect. In this situation, we have 5 aspects Entertainments, Accomodation Service, Restaurant Service, Food and Beverage, Shopping Services in Vietnamese language.
 
-# Table of contents
-  [Technology] <br> 
-  [Preprocessing] <br>
-  [Installation] <br>
-  [Demo]  <br>
-  [Train] <br>
-  [FastAPI Web Application] <br>
 
-# Technology
+## Table of contents
+  - [Technology](#technology)
+  - [Preprocessing](#preprocessing)
+  - [Installation](#installation)
+  - [Demo](#demo)
+  - [Train](#train)
+  - [FastAPI Web Application](#fastapi-web-application)
+
+
+## Technology
   Ensemble <br>
   PhoBert <br>
   VnCoreNLP <br>
   Regex <br>
   KFoldStratified <br>
+  Docker <br>
+  nginx <br>
+  
 
-# Preprocessing
+## Preprocessing
   - Remove emoji
   - Remove special characters
   - Remove punctuation
   - Remove numbers
   - Remove annotations
 
-# Installation
+## Installation
 ```python
   pip -q install vncorenlp 
   pip -q install iterative-stratification 
@@ -33,8 +38,9 @@
 ```
 
 # Demo
+```bash
   python app.py
-
+```
 # Train
   Weights: [Model Weight](https://drive.google.com/drive/folders/1SquUNngSVHZAET5mTjw_AT5TtDzjyRBW?usp=sharing)
 
