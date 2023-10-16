@@ -37,14 +37,14 @@
   git clone https://github.com/nampham793/Smart-Review-Analysis.git 
 ```
 
-# Demo
+## Demo
 ```bash
   python app.py
 ```
-# Train
+## Train
   Weights: [Model Weight](https://drive.google.com/drive/folders/1SquUNngSVHZAET5mTjw_AT5TtDzjyRBW?usp=sharing)
 
-# FastAPI Web Application
+## FastAPI Web Application
   <p>
     <img width="1439" alt="image" src="https://github.com/nampham793/Smart-Review-Analysis/assets/88274994/500094bc-93f9-4a64-b872-912e60f9f2a0">
 </p>
