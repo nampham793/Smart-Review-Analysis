@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf # Mount the custom Nginx configuration
+    restart: always
+    network_mode: "host"
+
+  
+  ai:
+    image: project2
+    build:
+      context: ./
+    ports:
+      - "8000:8000"
+    networks_mode: "host"
