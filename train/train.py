@@ -140,7 +140,8 @@ class Smart_Analysis_Training:
 
 if __name__ == "__main__":
     config = load_config('train_config.json')
-
+    tokenizer = AutoTokenizer.from_pretrained(config['MODEL_NAME'])
+    rdrsegmenter = VnCoreNLP(config['VNCORENLP'], annotators="wseg", max_heap_size='-Xmx500m')
     text_classifier = Smart_Analysis_Training(config)
     text_classifier.set_seed()
     dataset = text_classifier.load_data()
