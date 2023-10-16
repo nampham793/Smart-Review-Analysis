@@ -25,11 +25,12 @@
   - Remove annotations
 
 # Installation
-<code>pip -q install vncorenlp <br>
-  pip -q install iterative-stratification <br>
-  git clone https://github.com/vncorenlp/VnCoreNLP <br>
-  git clone https://github.com/nampham793/Smart-Review-Analysis.git <br>
-</code>
+```python
+  pip -q install vncorenlp 
+  pip -q install iterative-stratification 
+  git clone https://github.com/vncorenlp/VnCoreNLP 
+  git clone https://github.com/nampham793/Smart-Review-Analysis.git 
+```
 
 # Demo
   python app.py
