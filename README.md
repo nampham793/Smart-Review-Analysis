@@ -1,6 +1,6 @@
 # Smart-Review-Analysis
 ## Overview:
-- Smart Review Analysis is a project that helps businesses and individuals make data-driven decisions by extracting valuable insights from customer reviews and feedback. This model use the reviews of the customers after using the services. After the model have the review, it will return the number of stars for each aspect. In this situation, we have 5 aspects Entertainments, Accomodation Service, Restaurant Service, Food and Beverage, Shopping Services in Vietnamese language.
+- Smart Review Analysis is a project that helps businesses and individuals make data-driven decisions by extracting valuable insights from customer reviews and feedback. This model use the reviews of the customers after using the services. After the model have the review, it will return the number of stars for each aspect. In this situation, we have 5 aspects Entertainments, Accomodations' Services, Restaurants' Services, Food and Beverage, Shopping Services in Vietnamese language.
 
 
 ## Table of contents
@@ -13,14 +13,10 @@
 
 
 ## Technology
-  Ensemble <br>
-  PhoBert <br>
-  VnCoreNLP <br>
-  Regex <br>
-  KFoldStratified <br>
-  Docker <br>
-  nginx <br>
-  
+  - Ensemble <br>
+  - PhoBert <br>
+  - VnCoreNLP <br>
+  - Docker <br>
 
 ## Preprocessing
   - Remove emoji
@@ -30,7 +26,7 @@
   - Remove annotations
 
 ## Installation
-```python
+```bash
   pip -q install vncorenlp 
   pip -q install iterative-stratification 
   git clone https://github.com/vncorenlp/VnCoreNLP 
@@ -42,7 +38,7 @@
   python app.py
 ```
 ## Train
-  Weights: [Model Weight](https://drive.google.com/drive/folders/1SquUNngSVHZAET5mTjw_AT5TtDzjyRBW?usp=sharing)
+  Weights: Get the model's weights in [here](https://drive.google.com/drive/folders/1SquUNngSVHZAET5mTjw_AT5TtDzjyRBW?usp=sharing)
 
 ## FastAPI Web Application
   <p>
