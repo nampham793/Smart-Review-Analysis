@@ -28,7 +28,9 @@
 ## Installation
 ```bash
   pip -q install vncorenlp 
-  pip -q install iterative-stratification 
+  pip -q install iterative-stratification
+  pip -q install datasets
+  pip -q install uvicorn
   git clone https://github.com/vncorenlp/VnCoreNLP 
   git clone https://github.com/nampham793/Smart-Review-Analysis.git 
 ```
