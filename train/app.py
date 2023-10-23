@@ -17,7 +17,7 @@ app = FastAPI()
 templates = Jinja2Templates(directory='templates')
 
 # Load the trained model
-MODEL_PATH = "weights/model_v6.pt"
+MODEL_PATH = "weights/model_v3.pt"
 
 # Initialize the model, tokenizer, and segmenter
 model = Combined_model("vinai/phobert-base")

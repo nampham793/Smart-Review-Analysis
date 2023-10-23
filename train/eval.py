@@ -102,7 +102,7 @@ class SmartReviewEvaluator:
 if __name__ == "__main__":
     TEST_DIR = "dataset/chall_02_private_test.csv"
     MODEL_NAME = "vinai/phobert-base"
-    MODEL_WEIGHTS = "./train/weights/model_v6.pt"
+    MODEL_WEIGHTS = "./train/weights/model_v3.pt"
 
     smart_review_evaluator = SmartReviewEvaluator(TEST_DIR, MODEL_NAME, MODEL_WEIGHTS)
     smart_review_evaluator.load_model()

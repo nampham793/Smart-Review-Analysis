@@ -36,28 +36,34 @@ import json
 EMBEDDING_SIZE = 768
 NUM_CLASSES = 6
 NUM_REGRESSOR_OUTPUTS = 5
+DROP_OUT = 0.1
+
 
 class Combined_model(nn.Module):
     def __init__(self, checkpoint):
         super(Combined_model, self).__init__()
-        config = AutoConfig.from_pretrained(checkpoint, output_attentions=True, output_hidden_states=True)
-        self.model = model = AutoModel.from_config(config)
-        self.classifier = nn.Linear(EMBEDDING_SIZE * 4, NUM_CLASSES)
-        self.regressor = nn.Linear(EMBEDDING_SIZE * 4, NUM_CLASSES * NUM_REGRESSOR_OUTPUTS)
-
+        self.model = AutoModel.from_config(AutoConfig.from_pretrained(checkpoint, output_attentions=True, output_hidden_states=True))
+        self.classifier = nn.Sequential(
+            nn.Linear(EMBEDDING_SIZE * 4, 256),
+            nn.ReLU(),
+            nn.Dropout(DROP_OUT),
+            nn.Linear(256, NUM_CLASSES)
+        )
+        self.regressor = nn.Sequential(
+            nn.Linear(EMBEDDING_SIZE * 4, 256),
+            nn.ReLU(),
+            nn.Dropout(DROP_OUT),
+            nn.Linear(256, NUM_CLASSES*NUM_REGRESSOR_OUTPUTS)
+        )
+  
     def forward(self, input_ids=None, attention_mask=None):
         outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
-        # Concatenate the hidden states from different layers
-        concatenated_outputs = torch.cat(
-            (outputs[2][-1][:, 0, ...], outputs[2][-2][:, 0, ...], outputs[2][-3][:, 0, ...], outputs[2][-4][:, 0, ...]), -1
-        )
-
-        outputs_classifier = self.classifier(concatenated_outputs)
-        outputs_regressor = self.regressor(concatenated_outputs)
-
-        # Apply sigmoid activation to classifier outputs
+        outputs = torch.cat((outputs[2][-1][:, 0, ...], outputs[2][-2][:, 0, ...], outputs[2][-3][:, 0, ...], outputs[2][-4][:, 0, ...]), -1)
+  
+        outputs_classifier = self.classifier(outputs)
+        outputs_regressor = self.regressor(outputs)
+  
         outputs_classifier = nn.Sigmoid()(outputs_classifier)
-        # Reshape the regressor outputs
-        outputs_regressor = outputs_regressor.reshape(-1, NUM_CLASSES, NUM_REGRESSOR_OUTPUTS)
-
+        outputs_regressor = outputs_regressor.view(-1, 6, 5)
+  
         return outputs_classifier, outputs_regressor
